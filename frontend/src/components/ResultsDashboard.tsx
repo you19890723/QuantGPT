@@ -9,6 +9,7 @@ import FactorInterpretationCard from "./FactorInterpretationCard";
 import ShareCardButton from "./ShareCardButton";
 import WQBrainCard from "./WQBrainCard";
 import CloudValidationCard from "./CloudValidationCard";
+import RobustnessCard from "./RobustnessCard";
 import { useColorMode } from "../contexts/ColorModeContext";
 import { checkCloudStatus, uploadToCloud, type CloudValidationResult } from "../api/cloud";
 import { authFetch, BASE, parseError } from "../api/client";
@@ -153,6 +154,12 @@ export default function ResultsDashboard({ result, iterationSlot, onSaveFactor, 
         <MetricCard label="换手率" value={pct(backtest_summary.turnover ?? 0)} />
         <MetricCard label="WQ Fitness" value={num(backtest_summary.wq_fitness ?? 0)} color={(backtest_summary.wq_fitness ?? 0) >= 1.0 ? "green" : "default"} />
       </div>
+
+      <RobustnessCard
+        antiOverfit={result.anti_overfit}
+        adversarial={result.adversarial}
+        scoring={result.scoring}
+      />
 
       {result.wq_brain && Object.keys(result.wq_brain.wq_is_tests ?? {}).length > 0 && (
         <WQBrainCard wqBrain={result.wq_brain} />
